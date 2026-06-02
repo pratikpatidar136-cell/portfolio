@@ -50,7 +50,10 @@ export async function writePortfolioData(payload: any): Promise<void> {
       });
       return;
     } catch (err) {
-      console.error("Vercel Blob portfolio write error, falling back to local file:", err);
+      console.error("Vercel Blob portfolio write error:", err);
+      if (process.env.VERCEL) {
+        throw new Error(`Vercel Blob storage failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }
   }
 
@@ -97,7 +100,10 @@ export async function writeContactSubmissions(payload: any[]): Promise<void> {
       });
       return;
     } catch (err) {
-      console.error("Vercel Blob contact messages write error, falling back to local file:", err);
+      console.error("Vercel Blob contact messages write error:", err);
+      if (process.env.VERCEL) {
+        throw new Error(`Vercel Blob storage failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }
   }
 

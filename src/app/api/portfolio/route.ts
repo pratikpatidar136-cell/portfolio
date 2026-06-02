@@ -8,7 +8,10 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error reading portfolio data:", error);
-    return NextResponse.json({ error: "Failed to read database data" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Failed to read database data",
+      details: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
   }
 }
 
@@ -35,6 +38,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error saving portfolio data:", error);
-    return NextResponse.json({ error: "Failed to write database data" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Failed to write database data", 
+      details: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
+    }, { status: 500 });
   }
 }
