@@ -26,7 +26,7 @@ export async function readPortfolioData(): Promise<any> {
       const parsed = JSON.parse(seedData);
 
       await put("portfolio.json", JSON.stringify(parsed, null, 2), {
-        access: "public",
+        access: "private",
         addRandomSuffix: false,
       });
 
@@ -45,7 +45,7 @@ export async function writePortfolioData(payload: any): Promise<void> {
   if (isBlobActive()) {
     try {
       await put("portfolio.json", JSON.stringify(payload, null, 2), {
-        access: "public",
+        access: "private",
         addRandomSuffix: false,
       });
       return;
@@ -74,7 +74,7 @@ export async function readContactSubmissions(): Promise<any[]> {
 
       // Seed with empty array
       await put("contact_messages.json", "[]", {
-        access: "public",
+        access: "private",
         addRandomSuffix: false,
       });
       return [];
@@ -95,7 +95,7 @@ export async function writeContactSubmissions(payload: any[]): Promise<void> {
   if (isBlobActive()) {
     try {
       await put("contact_messages.json", JSON.stringify(payload, null, 2), {
-        access: "public",
+        access: "private",
         addRandomSuffix: false,
       });
       return;
