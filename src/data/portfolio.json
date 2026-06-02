@@ -1,0 +1,91 @@
+{
+  "hero": {
+    "title": "Sculpting Stories through Cinematic Video & 3D Motion Graphics",
+    "description": "I craft immersive digital experiences for brands looking to transcend standard visual layouts. Specialized in cinematic editing, complex VFX simulations, and mouse-reactive 3D graphics environments.",
+    "globalClients": "50+",
+    "collectiveViews": "4.8M+",
+    "experienceYears": "5+ Years"
+  },
+  "services": [
+    {
+      "id": "service-1",
+      "title": "Cinematic Video Production",
+      "description": "Crafting commercial reels, dynamic pacing cuts, narrative flow, and high-fidelity soundscapes that command absolute audience retention.",
+      "icon": "Video"
+    },
+    {
+      "id": "service-2",
+      "title": "3D Motion Design",
+      "description": "Modeling and animating premium liquid metal geometries, bespoke logo reveals, and futuristic hardware mesh concepts with hyperreal textures.",
+      "icon": "Sparkles"
+    },
+    {
+      "id": "service-3",
+      "title": "DaVinci Color Grading",
+      "description": "Injecting atmospheric, cinema-standard color matching, skin tone corrections, and custom LUT compositions for a cohesive aesthetic signature.",
+      "icon": "Palette"
+    },
+    {
+      "id": "service-4",
+      "title": "VFX Compositing",
+      "description": "Integrating green-screen keying, advanced particle tracking, lighting composites, and celestial CGI overlays seamlessly into raw footage.",
+      "icon": "Layers"
+    }
+  ],
+  "categories": ["Video Editing", "3D Motion Graphics", "Visual Effects"],
+  "showcase": [
+    {
+      "id": "item-1",
+      "title": "Cinematic Gaming Launch Teaser",
+      "category": "Video Editing",
+      "imageUrl": "/images/cinematic_video_editor.png",
+      "software": ["Premiere Pro", "DaVinci Resolve", "Audition"],
+      "duration": "1:45",
+      "client": "Rogue eSports"
+    },
+    {
+      "id": "item-2",
+      "title": "Abstract Chrome Fluid Motion",
+      "category": "3D Motion Graphics",
+      "imageUrl": "/images/abstract_3d_geometry.png",
+      "software": ["Cinema 4D", "Octane Render", "After Effects"],
+      "duration": "0:30",
+      "client": "Luminary Studios"
+    },
+    {
+      "id": "item-3",
+      "title": "VFX Nebula Cosmic Portal",
+      "category": "Visual Effects",
+      "imageUrl": "/images/vfx_cosmic_portal.png",
+      "software": ["Nuke", "After Effects", "Houdini"],
+      "duration": "2:15",
+      "client": "Aetherial Films"
+    }
+  ],
+  "journey": [
+    {
+      "id": "journey-1",
+      "period": "2024 - PRESENT",
+      "title": "Lead Creative Director",
+      "company": "Aetherial Media",
+      "description": "Directing large-scale marketing visuals, cinema-standard teaser trailers, and mouse-reactive 3D web environments. Leading a team of digital designers to ship high-impact campaigns.",
+      "color": "indigo"
+    },
+    {
+      "id": "journey-2",
+      "period": "2022 - 2024",
+      "title": "Elite Freelance Video Editor & Motion Designer",
+      "company": "",
+      "description": "Partnered with gaming studios and digital agencies to deliver fluid rhythm edits and high-fidelity product renders, yielding over 10M+ collective impressions.",
+      "color": "purple"
+    },
+    {
+      "id": "journey-3",
+      "period": "2020 - 2022",
+      "title": "VFX Compositor & Colorist",
+      "company": "Neon Forge",
+      "description": "Engineered DaVinci Resolve color pipelines, camera tracking, composite integrations, and digital matte scene constructions for cinematic client projects.",
+      "color": "zinc"
+    }
+  ]
+}
