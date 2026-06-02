@@ -3,11 +3,25 @@ import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
 
-const getFilePath = () => path.join(process.cwd(), "src/data/portfolio.json");
+const getFilePath = async () => {
+  if (process.env.VERCEL) {
+    const tmpPath = path.join("/tmp", "portfolio.json");
+    try {
+      await fs.access(tmpPath);
+    } catch {
+      // Seed from read-only directory
+      const seedPath = path.join(process.cwd(), "src/data/portfolio.json");
+      const seedData = await fs.readFile(seedPath, "utf8");
+      await fs.writeFile(tmpPath, seedData, "utf8");
+    }
+    return tmpPath;
+  }
+  return path.join(process.cwd(), "src/data/portfolio.json");
+};
 
 export async function GET() {
   try {
-    const filePath = getFilePath();
+    const filePath = await getFilePath();
     const data = await fs.readFile(filePath, "utf8");
     return NextResponse.json(JSON.parse(data));
   } catch (error) {
@@ -34,7 +48,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid data schema structure" }, { status: 400 });
     }
 
-    const filePath = getFilePath();
+    const filePath = await getFilePath();
     await fs.writeFile(filePath, JSON.stringify(payload, null, 2), "utf8");
     
     return NextResponse.json({ success: true });

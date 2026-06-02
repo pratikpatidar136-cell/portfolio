@@ -3,7 +3,18 @@ import { cookies } from "next/headers";
 import { promises as fs } from "fs";
 import path from "path";
 
-const getFilePath = () => path.join(process.cwd(), "src/data/contact_messages.json");
+const getFilePath = async () => {
+  if (process.env.VERCEL) {
+    const tmpPath = path.join("/tmp", "contact_messages.json");
+    try {
+      await fs.access(tmpPath);
+    } catch {
+      await fs.writeFile(tmpPath, "[]", "utf8");
+    }
+    return tmpPath;
+  }
+  return path.join(process.cwd(), "src/data/contact_messages.json");
+};
 
 async function checkAuth() {
   const cookieStore = await cookies();
@@ -17,7 +28,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const filePath = getFilePath();
+    const filePath = await getFilePath();
     let data = "[]";
     try {
       data = await fs.readFile(filePath, "utf8");
@@ -46,7 +57,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Submission ID is required" }, { status: 400 });
     }
 
-    const filePath = getFilePath();
+    const filePath = await getFilePath();
     let submissions = [];
 
     try {

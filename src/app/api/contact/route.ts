@@ -2,7 +2,19 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 
-const getFilePath = () => path.join(process.cwd(), "src/data/contact_messages.json");
+const getFilePath = async () => {
+  if (process.env.VERCEL) {
+    const tmpPath = path.join("/tmp", "contact_messages.json");
+    try {
+      await fs.access(tmpPath);
+    } catch {
+      // Seed with empty array
+      await fs.writeFile(tmpPath, "[]", "utf8");
+    }
+    return tmpPath;
+  }
+  return path.join(process.cwd(), "src/data/contact_messages.json");
+};
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +24,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Name, email, and project are required fields" }, { status: 400 });
     }
 
-    const filePath = getFilePath();
+    const filePath = await getFilePath();
     let submissions = [];
 
     try {
