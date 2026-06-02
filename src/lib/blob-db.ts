@@ -28,6 +28,7 @@ export async function readPortfolioData(): Promise<any> {
       await put("portfolio.json", JSON.stringify(parsed, null, 2), {
         access: "private",
         addRandomSuffix: false,
+        allowOverwrite: true,
       });
 
       return parsed;
@@ -47,6 +48,7 @@ export async function writePortfolioData(payload: any): Promise<void> {
       await put("portfolio.json", JSON.stringify(payload, null, 2), {
         access: "private",
         addRandomSuffix: false,
+        allowOverwrite: true,
       });
       return;
     } catch (err) {
@@ -76,6 +78,7 @@ export async function readContactSubmissions(): Promise<any[]> {
       await put("contact_messages.json", "[]", {
         access: "private",
         addRandomSuffix: false,
+        allowOverwrite: true,
       });
       return [];
     } catch (err) {
@@ -97,6 +100,7 @@ export async function writeContactSubmissions(payload: any[]): Promise<void> {
       await put("contact_messages.json", JSON.stringify(payload, null, 2), {
         access: "private",
         addRandomSuffix: false,
+        allowOverwrite: true,
       });
       return;
     } catch (err) {
