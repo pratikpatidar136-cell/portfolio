@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { readContactSubmissions, writeContactSubmissions } from "@/lib/blob-db";
 
+export const dynamic = "force-dynamic";
+
 async function checkAuth() {
   const cookieStore = await cookies();
   const session = cookieStore.get("admin_session");
@@ -15,7 +17,11 @@ export async function GET() {
     }
 
     const data = await readContactSubmissions();
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: {
+        "Cache-Control": "no-store, max-age=0, must-revalidate",
+      },
+    });
   } catch (error) {
     console.error("Error reading submissions:", error);
     return NextResponse.json({ error: "Failed to read database" }, { status: 500 });

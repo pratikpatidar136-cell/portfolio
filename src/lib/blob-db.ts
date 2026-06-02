@@ -17,7 +17,7 @@ export async function readPortfolioData(): Promise<any> {
       const blob = response.blobs.find((b) => b.pathname === "portfolio.json");
 
       if (blob) {
-        const fetchRes = await fetch(blob.url, { cache: "no-store" });
+        const fetchRes = await fetch(`${blob.url}?t=${Date.now()}`, { cache: "no-store" });
         return await fetchRes.json();
       }
 
@@ -70,7 +70,7 @@ export async function readContactSubmissions(): Promise<any[]> {
       const blob = response.blobs.find((b) => b.pathname === "contact_messages.json");
 
       if (blob) {
-        const fetchRes = await fetch(blob.url, { cache: "no-store" });
+        const fetchRes = await fetch(`${blob.url}?t=${Date.now()}`, { cache: "no-store" });
         return await fetchRes.json();
       }
 

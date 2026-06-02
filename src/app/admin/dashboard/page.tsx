@@ -62,11 +62,11 @@ export default function AdminDashboardPage() {
         setIsAuthChecking(false);
 
         // Fetch DB data
-        const portRes = await fetch("/api/portfolio");
+        const portRes = await fetch(`/api/portfolio?t=${Date.now()}`);
         const portData = await portRes.json();
         setPortfolioData(portData);
 
-        const subRes = await fetch("/api/admin/submissions");
+        const subRes = await fetch(`/api/admin/submissions?t=${Date.now()}`);
         const subData = await subRes.json();
         setProposals(Array.isArray(subData) ? subData : []);
       } catch (err) {

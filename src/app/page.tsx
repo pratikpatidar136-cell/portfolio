@@ -62,7 +62,7 @@ export default function HomePage() {
 
   // Load portfolio database changes dynamically
   useEffect(() => {
-    fetch("/api/portfolio")
+    fetch("/api/portfolio?t=" + Date.now())
       .then((res) => res.json())
       .then((json) => {
         if (json && !json.error) {
