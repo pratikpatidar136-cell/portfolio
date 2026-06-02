@@ -1,20 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { promises as fs } from "fs";
-import path from "path";
-
-const getFilePath = async () => {
-  if (process.env.VERCEL) {
-    const tmpPath = path.join("/tmp", "contact_messages.json");
-    try {
-      await fs.access(tmpPath);
-    } catch {
-      await fs.writeFile(tmpPath, "[]", "utf8");
-    }
-    return tmpPath;
-  }
-  return path.join(process.cwd(), "src/data/contact_messages.json");
-};
+import { readContactSubmissions, writeContactSubmissions } from "@/lib/blob-db";
 
 async function checkAuth() {
   const cookieStore = await cookies();
@@ -28,16 +14,8 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const filePath = await getFilePath();
-    let data = "[]";
-    try {
-      data = await fs.readFile(filePath, "utf8");
-    } catch (e) {
-      // If file doesn't exist yet, return empty list
-      data = "[]";
-    }
-
-    return NextResponse.json(JSON.parse(data));
+    const data = await readContactSubmissions();
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error reading submissions:", error);
     return NextResponse.json({ error: "Failed to read database" }, { status: 500 });
@@ -57,18 +35,10 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Submission ID is required" }, { status: 400 });
     }
 
-    const filePath = await getFilePath();
-    let submissions = [];
-
-    try {
-      const fileData = await fs.readFile(filePath, "utf8");
-      submissions = JSON.parse(fileData);
-    } catch (e) {
-      return NextResponse.json({ error: "No database file found" }, { status: 404 });
-    }
-
+    const submissions = await readContactSubmissions();
     const filtered = submissions.filter((sub: any) => sub.id !== id);
-    await fs.writeFile(filePath, JSON.stringify(filtered, null, 2), "utf8");
+    
+    await writeContactSubmissions(filtered);
 
     return NextResponse.json({ success: true });
   } catch (error) {

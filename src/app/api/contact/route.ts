@@ -1,20 +1,5 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-
-const getFilePath = async () => {
-  if (process.env.VERCEL) {
-    const tmpPath = path.join("/tmp", "contact_messages.json");
-    try {
-      await fs.access(tmpPath);
-    } catch {
-      // Seed with empty array
-      await fs.writeFile(tmpPath, "[]", "utf8");
-    }
-    return tmpPath;
-  }
-  return path.join(process.cwd(), "src/data/contact_messages.json");
-};
+import { readContactSubmissions, writeContactSubmissions } from "@/lib/blob-db";
 
 export async function POST(request: Request) {
   try {
@@ -24,16 +9,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Name, email, and project are required fields" }, { status: 400 });
     }
 
-    const filePath = await getFilePath();
-    let submissions = [];
-
-    try {
-      const fileData = await fs.readFile(filePath, "utf8");
-      submissions = JSON.parse(fileData);
-    } catch (e) {
-      // If file doesn't exist or is invalid, start with empty array
-      submissions = [];
-    }
+    const submissions = await readContactSubmissions();
 
     const newSubmission = {
       id: `msg-${Date.now()}`,
@@ -44,7 +20,7 @@ export async function POST(request: Request) {
     };
 
     submissions.push(newSubmission);
-    await fs.writeFile(filePath, JSON.stringify(submissions, null, 2), "utf8");
+    await writeContactSubmissions(submissions);
 
     return NextResponse.json({ success: true });
   } catch (error) {
